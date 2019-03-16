@@ -15,6 +15,7 @@
 
 <script>
 export default {
+  name:'Header',
   data () {
     return {
     };
@@ -23,8 +24,6 @@ export default {
   components: {},
 
   computed: {},
-
-  mounted: {},
 
   methods: {}
 }

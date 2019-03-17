@@ -15,6 +15,7 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+//处理显示的时间
 Vue.filter('formatDate', function (str) {
   if (!str) return ''
   var date = new Date(str)
@@ -39,3 +40,16 @@ Vue.filter('formatDate', function (str) {
 }
 )
 //处理显示板块的文字
+Vue.filter('tabFormatter', (post) => {
+  if (post.good == true) {
+    return '精华'
+  } else if (post.top == true) {
+    return '置顶'
+  } else if (post.tab == 'ask') {
+    return '问答'
+  } else if (post.tab == 'share') {
+    return '分享'
+  } else {
+    return '招聘'
+  }
+})

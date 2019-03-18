@@ -20,6 +20,10 @@ export default new Router({
       components: {
         main: Article
       },
+    },
+    {
+      name:'user_info',
+      path:'/user_info/:name',
     }
   ]
 })

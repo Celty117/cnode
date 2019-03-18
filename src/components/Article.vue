@@ -7,15 +7,39 @@
     >
       <img src="../assets/loading.gif">
     </div>
-    <div>
+    <div class="article_main">
       <div class="topic_header">
         <div class="topic_title">{{post.title}}</div>
         <ul>
-          <li>·发布于：{{post.create_at | formatDate}}</li>
-          <li>·作者：{{post.author.loginname}}</li>
-          <li>·{{post.visit_count}}次浏览</li>
-          <li>·来自{{post | tabFormatter}}</li>
+          <li>•发布于：{{post.create_at | formatDate}}</li>
+          <li>•作者：{{post.author.loginname}}</li>
+          <li>•{{post.visit_count}}次浏览</li>
+          <li>•来自{{post | tabFormatter}}</li>
         </ul>
+        <div
+          class="topic_content"
+          v-html="post.content"
+        ></div>
+      </div>
+      <div>
+        <div class="topbar">回复</div>
+        <div
+          v-for="(reply, index) in post.replies"
+          :key="index"
+        >
+          <router-link :to="">
+            <img :src="reply.author.avatar_url">
+          </router-link>
+          <router-link>
+            <span>{{reply.author.loginname}}</span>
+          </router-link>
+          <span>{{index+1}}楼</span>
+          <span v-if="reply.ups.length>0">
+            ☝{{reply.ups.length}}
+          </span>
+          <span v-else></span>
+          <p> v-html="reply.content"</p>
+        </div>
       </div>
     </div>
   </div>
@@ -36,27 +60,36 @@ export default {
   computed: {},
 
   methods: {
-    getArticleData(){
-      this.$http.get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
-      .then((res) => {
-        if(res.data.success == true){
-          this.isLoading = false;
-          this.post = res.data.data;
-        }
-      }).catch((err) => {
-        console.log(err)
-      });
+    getArticleData() {
+      this.$http
+        .get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
+        .then(res => {
+          if (res.data.success == true) {
+            this.isLoading = false;
+            this.post = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-  beforeMount(){
+  beforeMount() {
     this.isLoading = true;
     this.getArticleData();
   }
 };
 </script>
 
-<style scoped>
-
+<style>
+@import url("../assets/markdown-github.css");
+.article {
+  background-color: #e1e1e1;
+}
+.article_main {
+  width: 80%;
+  margin: 0 auto;
+}
 .topbar {
   padding: 10px;
   background-color: #f6f6f6;

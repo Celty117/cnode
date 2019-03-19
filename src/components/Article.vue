@@ -23,10 +23,7 @@
       </div>
       <div id="reply">
         <div class="topbar">回复</div>
-        <div
-          v-for="(reply, index) in post.replies"
-          :key="index"
-        >
+        <div v-for="(reply, index) in post.replies">
           <router-link :to="{
             name:'user_info',
             params:{
@@ -85,6 +82,11 @@ export default {
   beforeMount() {
     this.isLoading = true;
     this.getArticleData();
+  },
+  watch: {
+    $route(to, from) {
+      this.getArticleData();
+    }
   }
 };
 </script>

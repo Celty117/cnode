@@ -23,7 +23,6 @@
           <!-- 头像 -->
           <img
             :src="post.author.avatar_url"
-            alt=""
           >
           <!-- 回复/浏览 -->
           <span class="allcount">
@@ -40,7 +39,8 @@
           <router-link :to="{
             name:'post_content', 
             params:{
-            id:post.id
+            id:post.id,
+            name:post.author.loginname,
           }
           }">
             <span>

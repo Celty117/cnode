@@ -7,7 +7,7 @@
     >
       <img src="../assets/loading.gif">
     </div>
-    <div class="article_main">
+    <div v-else>
       <div class="topic_header">
         <div class="topic_title">{{post.title}}</div>
         <ul>
@@ -23,26 +23,31 @@
       </div>
       <div id="reply">
         <div class="topbar">回复</div>
-        <div v-for="(reply, index) in post.replies">
-          <router-link :to="{
+        <div
+          v-for="(reply, index) in post.replies"
+          class="replySec"
+        >
+          <div class="replyUp">
+            <router-link :to="{
             name:'user_info',
             params:{
               name:reply.author.loginname
-          }}">
-            <img :src="reply.author.avatar_url">
-          </router-link>
-          <router-link :to="{
+            }}">
+              <img :src="reply.author.avatar_url">
+            </router-link>
+            <router-link :to="{
             name:'user_info',
             params:{
               name:reply.author.loginname
-          }}">
-            <span>{{reply.author.loginname}}</span>
-          </router-link>
-          <span>{{index+1}}楼</span>
-          <span v-if="reply.ups.length>0">
-            ☝{{reply.ups.length}}
-          </span>
-          <span v-else></span>
+            }}">
+              <span>{{reply.author.loginname}}</span>
+            </router-link>
+            <span>{{index+1}}楼</span>
+            <span v-if="reply.ups.length>0">
+              ☝{{reply.ups.length}}
+            </span>
+            <span v-else></span>
+          </div>
           <p v-html="reply.content"></p>
         </div>
       </div>
@@ -93,13 +98,7 @@ export default {
 
 <style>
 @import url("../assets/markdown-github.css");
-.article {
-  background-color: #e1e1e1;
-}
-.article_main {
-  width: 80%;
-  margin: 0 auto;
-}
+
 .topbar {
   padding: 10px;
   background-color: #f6f6f6;
@@ -132,7 +131,7 @@ export default {
 #reply a,
 #reply span {
   font-size: 13px;
-  color: #666;
+  color: #0088d6;
   text-decoration: none;
 }
 .replySec {

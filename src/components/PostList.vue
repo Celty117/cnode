@@ -21,9 +21,7 @@
         </li>
         <li v-for="post in posts">
           <!-- 头像 -->
-          <img
-            :src="post.author.avatar_url"
-          >
+          <img :src="post.author.avatar_url">
           <!-- 回复/浏览 -->
           <span class="allcount">
             <span class="reply_count">{{post.reply_count}}</span>
@@ -52,26 +50,38 @@
             {{post.last_reply_at | formatDate}}
           </span>
         </li>
+        <!-- 分页 -->
+        <li>
+          <pagination @handleList="renderList"></pagination>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import pagination from "./Pagination";
+
 export default {
   name: "PostList",
   data() {
     return {
       posts: [], // 代表页面的列表数组
-      isLoading: false
+      isLoading: false,
+      postpage:1,
     };
+  },
+  components:{
+    pagination,
   },
   methods: {
     getData() {
       this.$http
         .get("https://cnodejs.org/api/v1/topics", {
-          page: 1,
-          limit: 20
+          params:{
+            page: this.postpage,
+            limit: 20,
+          }
         })
         .then(res => {
           this.isLoading = false; // 加载成功，去除动画
@@ -81,7 +91,11 @@ export default {
           //处理放回失败后的问题
           console.log(err);
         });
-    }
+    },
+    renderList(value){
+      this.postpage = value;
+      this.getData();
+    },
   },
   beforeMount() {
     this.isLoading = true; // 加载成功之前显示加载动画
@@ -91,10 +105,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
 .PostList {
   background-color: #e1e1e1;
 }
@@ -102,7 +112,7 @@ export default {
   padding-top: 10px;
 }
 
-.PostList img {
+.posts img {
   height: 30px;
   width: 30px;
   vertical-align: middle;

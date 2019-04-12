@@ -121,7 +121,7 @@ export default {
   margin-top: 15px;
 }
 
-#reply img {
+.replyUp img {
   width: 30px;
   height: 30px;
   position: relative;

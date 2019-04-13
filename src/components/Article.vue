@@ -1,10 +1,7 @@
 <!--  -->
 <template>
   <div class="article">
-    <div
-      class="loading"
-      v-if="isLoading"
-    >
+    <div class="loading" v-if="isLoading">
       <img src="../assets/loading.gif">
     </div>
     <div v-else>
@@ -16,17 +13,11 @@
           <li>•{{post.visit_count}}次浏览</li>
           <li>•来自{{post | tabFormatter}}</li>
         </ul>
-        <div
-          class="topic_content"
-          v-html="post.content"
-        ></div>
+        <div class="topic_content" v-html="post.content"></div>
       </div>
       <div id="reply">
         <div class="topbar">回复</div>
-        <div
-          v-for="(reply, index) in post.replies"
-          class="replySec"
-        >
+        <div class="replySec" v-for="(reply, index) in post.replies">
           <div class="replyUp">
             <router-link :to="{
             name:'user_info',
@@ -42,10 +33,8 @@
             }}">
               <span>{{reply.author.loginname}}</span>
             </router-link>
-            <span>{{index+1}}楼</span>
-            <span v-if="reply.ups.length>0">
-              ☝{{reply.ups.length}}
-            </span>
+            <span class="articleStep">{{index+1}}楼</span>
+            <span v-if="reply.ups.length>0">☝{{reply.ups.length}}</span>
             <span v-else></span>
           </div>
           <p v-html="reply.content"></p>
@@ -57,12 +46,12 @@
 
 <script>
 export default {
-  name: "Article",
+  name: 'Article',
   data() {
     return {
       isLoading: false,
       post: {}
-    };
+    }
   },
 
   components: {},
@@ -75,29 +64,29 @@ export default {
         .get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
         .then(res => {
           if (res.data.success == true) {
-            this.isLoading = false;
-            this.post = res.data.data;
+            this.isLoading = false
+            this.post = res.data.data
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     }
   },
   beforeMount() {
-    this.isLoading = true;
-    this.getArticleData();
+    this.isLoading = true
+    this.getArticleData()
   },
   watch: {
     $route(to, from) {
-      this.getArticleData();
+      this.getArticleData()
     }
   }
-};
+}
 </script>
 
 <style>
-@import url("../assets/markdown-github.css");
+@import url('../assets/markdown-github.css');
 
 .topbar {
   padding: 10px;
@@ -133,6 +122,9 @@ export default {
   font-size: 13px;
   color: #0088d6;
   text-decoration: none;
+}
+#reply .articleStep {
+  color: #838383;
 }
 .replySec {
   border-bottom: 1px solid #e5e5e5;
@@ -174,9 +166,5 @@ export default {
 .topic_content {
   border-top: 1px solid #e5e5e5;
   padding: 0 10px;
-}
-
-.markdown-text img {
-  width: 92% !important;
 }
 </style>

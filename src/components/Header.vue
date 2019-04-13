@@ -2,27 +2,24 @@
 <template>
   <div class="header">
     <router-link :to="{name:'root'}">
-    <img
-      src="../assets/cnodejs_light.svg"
-      alt=""
-    >
+      <img alt src="../assets/cnodejs_light.svg">
     </router-link>
     <ul>
-      <li><a href="#">首页</a></li>
-      <li><a href="#">新手入门</a></li>
-      <li><a href="#">API</a></li>
-      <li><a href="#">关于</a></li>
-      <li><a href="#">注册</a></li>
-      <li><a href="#">登录</a></li>
+      <li>
+        <router-link :to="{name:'root'}">首页</router-link>
+      </li>
+      <li>
+        <router-link :to="{name: 'about'}">关于</router-link>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header",
+  name: 'Header',
   data() {
-    return {};
+    return {}
   },
 
   components: {},
@@ -30,7 +27,7 @@ export default {
   computed: {},
 
   methods: {}
-};
+}
 </script>
 
 <style scoped>
@@ -50,7 +47,7 @@ img {
 ul {
   list-style: none;
   float: right;
-  margin: 4px;
+  margin: 4px 40px;
 }
 li {
   display: inline-block;

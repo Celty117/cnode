@@ -1,10 +1,7 @@
 <!--  -->
 <template>
   <div class="PostList">
-    <div
-      class="loading"
-      v-if="isLoading"
-    >
+    <div class="loading" v-if="isLoading">
       <img src="../assets/loading.gif">
     </div>
     <!-- 代表主题帖子 -->
@@ -13,10 +10,10 @@
         <li>
           <div class="topbar">
             <span>全部</span>
-            <span>精华</span>
-            <span>分享</span>
-            <span>问答</span>
-            <span>招聘</span>
+            <span @click="alert">精华</span>
+            <span @click="alert">分享</span>
+            <span @click="alert">问答</span>
+            <span @click="alert">招聘</span>
           </div>
         </li>
         <li v-for="post in posts">
@@ -29,26 +26,22 @@
           </span>
           <!-- 帖子的分类 -->
           <span :class="[{put_good:(post.good == true),put_top:(post.top == true),put_type:(post.good != true && post.top != true)}]">
-            <span>
-              {{post | tabFormatter}}
-            </span>
+            <span>{{post | tabFormatter}}</span>
           </span>
           <!-- 标题 -->
-          <router-link :to="{
+          <router-link
+            :to="{
             name:'post_content', 
             params:{
             id:post.id,
             name:post.author.loginname,
           }
-          }">
-            <span>
-              {{post.title}}
-            </span>
+          }"
+          >
+            <span>{{post.title}}</span>
           </router-link>
           <!-- 最终回复时间 -->
-          <span class="last_reply">
-            {{post.last_reply_at | formatDate}}
-          </span>
+          <span class="last_reply">{{post.last_reply_at | formatDate}}</span>
         </li>
         <!-- 分页 -->
         <li>
@@ -60,48 +53,51 @@
 </template>
 
 <script>
-import pagination from "./Pagination";
+import pagination from './Pagination'
 
 export default {
-  name: "PostList",
+  name: 'PostList',
   data() {
     return {
       posts: [], // 代表页面的列表数组
       isLoading: false,
-      postpage:1,
-    };
+      postpage: 1
+    }
   },
-  components:{
-    pagination,
+  components: {
+    pagination
   },
   methods: {
     getData() {
       this.$http
-        .get("https://cnodejs.org/api/v1/topics", {
-          params:{
+        .get('https://cnodejs.org/api/v1/topics', {
+          params: {
             page: this.postpage,
-            limit: 20,
+            limit: 20
           }
         })
         .then(res => {
-          this.isLoading = false; // 加载成功，去除动画
-          this.posts = res.data.data;
+          this.isLoading = false // 加载成功，去除动画
+          this.posts = res.data.data
         })
         .catch(err => {
           //处理放回失败后的问题
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    renderList(value){
-      this.postpage = value;
-      this.getData();
+    renderList(value) {
+      this.postpage = value
+      this.getData()
     },
+    alert() {
+      alert(`由于该页与'全部'页面完全一致，暂时未做。。`)
+    }
   },
   beforeMount() {
-    this.isLoading = true; // 加载成功之前显示加载动画
-    this.getData(); // 在页面加载之前获取数据
+    this.isLoading = true // 加载成功之前显示加载动画
+    this.getData() // 在页面加载之前获取数据
   }
-};
+}
 </script>
 
 <style scoped>
@@ -128,8 +124,8 @@ ul {
 ul li:not(:first-child) {
   padding: 9px;
   font-size: 15px;
-  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
-    "Hiragino Sans GB", STHeiti, sans-serif !important;
+  font-family: 'Helvetica Neue', 'Luxi Sans', 'DejaVu Sans', Tahoma,
+    'Hiragino Sans GB', STHeiti, sans-serif !important;
   font-weight: 400;
   background-color: white;
   color: #333;
